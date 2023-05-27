@@ -7,13 +7,13 @@
 ## 2. Observações gerais
 1. Uso adequado dos arquivos, criados como módulos específicos das das funcionalidades
 2. Uso adequado dos comentários, facilitando a compreensão, consequentemente do código elaborado
-3. Modulrização do código utilizando funções muito boa. A única sugestão é no sentido de separar módulos de entrada de dados,   
+3. Modularização do código utilizando funções muito boa. A única sugestão é no sentido de separar módulos de entrada de dados,   
 dos módulos de processamento. Por exemplo, seria mais fácil de manter o código se no módulo `gerestoque.py` fosse criada uma função para  
 incluir uma função para incluir separa da função para exluir, assim por diante.  
 4. Nem todas as interfaces seguiram o padrão pedidos.  
 
 ## 3. Funcionalidades
-### 3.1 Módulo GerCaixa
+### 3.1 Módulo GerEstoque
 1. A funcionalidade de `verificação do código` deve ser corrigida. O pedido é de que  
 "códigos válidos possuem a soma dos dígitos superior a 30 e inferior a 100".  
 A implementação é de número de código superior a 100 e inferior a 30.
