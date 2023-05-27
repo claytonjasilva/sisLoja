@@ -10,6 +10,7 @@
 3. Modulrização do código utilizando funções muito boa. A única sugestão é no sentido de separar módulos de entrada de dados,   
 dos módulos de processamento. Por exemplo, seria mais fácil de manter o código se no módulo `gerestoque.py` fosse criada uma função para  
 incluir uma função para incluir separa da função para exluir, assim por diante.  
+4. Nem todas as interfaces seguiram o padrão pedidos.  
 
 ## 3. Funcionalidades
 ### 3.1 Módulo GerCaixa
@@ -23,6 +24,8 @@ a mensagem “NÃO HÁ SALDO EM ESTOQUE”.
 ### 3.2 Módulo GerCliente
 1. Seria interessante não permitir cadastro de cpf iguais. O sistema não está fazendo a filtragem.
 2. Não observei outros desvios de funcionalidade.
+### 3.3 Módulo GerCaixa
+1. Seria interessante apresentar um formato desejado para a entrada de data. Por exemplo, se o usuário digita "27/05/2023", o sistema entende como data inválida.
 
 
 
