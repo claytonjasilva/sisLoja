@@ -3,6 +3,7 @@
 ## 1. Em relação à submissão
 1. Atraso no envio por e-mail
 2. As interfaces não seguiram exatamente o padrão que foi exigido
+3. Os códigos não contêm os nomes dos componentes do grupo, nem a auto-avaliação
 
 ## 2. Observações gerais
 1. A interface do menu principal não atende ao pedido.
