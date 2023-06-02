@@ -1,0 +1,27 @@
+# Observações Gerais
+
+## 1. Em relação à submissão
+1. Prazos cumpridos
+
+## 2. Observações gerais
+1. Na próxima versão, sugiro criar os módulo. Cada módulo específico das das funcionalidades
+2. Uso adequado dos comentários, facilitando a compreensão, consequentemente do código elaborado
+3. Modularização do código utilizando funções muito boa. A única sugestão é no sentido de separar módulos de entrada de dados,   
+dos módulos de processamento, dos módulos de teste de código etc. 
+4. Excelente interface!  
+
+## 3. Funcionalidades
+### 3.1 Módulo GerEstoque
+1. A funcionalidade de exclusão não permite excluir uma lista vazia. 
+A implementação é de número de código superior a 100 e inferior a 30.
+2. Quanto à funcionalidade de `exclusão de item`. Após um item ser criado com uma quantidade armazenada em estoque,  
+a quantidade deve ser reduzida até 0, em cada exclusão. Se o usuário tentar excluir um item com 0 de estoque o sistema deve apresentar  
+a mensagem “NÃO HÁ SALDO EM ESTOQUE”.  
+3. Não observei outros desvios de funcionalidade.
+### 3.2 Módulo GerCliente
+1. No teste de CPF, pemanece lendo cpf inválido e prosseguindo com a solicitação de renda. O mais adequado é ler renda somente se o CPF for válido.
+2. A renda do cliente deve ser float.
+3. Não observei outros desvios de funcionalidade.
+### 3.3 Módulo GerCaixa
+1. Funcionalidade atendida.
+
