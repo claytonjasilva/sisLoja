@@ -1,57 +1,105 @@
-def ger_clientes():
-        clientes = []
-        cpf_antigo = ''
+def cadastrar_cliente(clientes):
+    conjunto_clientes = set()
+
+    while True:
+        print("--------------------------------------")
+        cpf = input("Digite o CPF do cliente (0 para sair): ")
+
+        if cpf == '0':
+            break
+
+        cpf = cpf.replace(".", "").replace("-", "")
+
+        if len(cpf) != 11:
+            print("CPF inválido! Não é possível inserir esse CPF.")
+            continue
+
+        if cpf in clientes:
+            print("CPF repetido! Digite um CPF diferente.")
+            continue
+
+        renda = input("Digite a renda do cliente: ")
+
+        renda = float
+
+        cliente = {'cpf': cpf, 'renda': renda}
+        clientes[cpf] = cliente
+
+        cpf_formatado = "{}.{}.{}/{}".format(cpf[:3], cpf[3:6], cpf[6:9], cpf[9:])
+        conjunto_clientes.add((cpf_formatado, renda))
+
+    print("--------------------------------------")
+    print("OPERAÇÃO REALIZADA COM SUCESSO")
+    print("Clientes cadastrados:")
+    for cpf, renda in conjunto_clientes:
+        print("CPF:", cpf, "- Renda:", renda)
+    print("Número de clientes cadastrados:", len(clientes))
+    print("--------------------------------------")
+
+    return conjunto_clientes
+
+
+def alterar_renda(clientes):
+    cpf = input("Digite o CPF do cliente que deseja alterar a renda: ")
+    cpf = cpf.replace(".", "").replace("-", "")
+
+    if cpf in clientes:
         while True:
-           #função pede para o usuario digitar um cpf e verifica se esse cpf é possivel ou impossivel
-            print("--------------------------------------")
-            cpf = input("Digite o CPF do cliente (0 para sair): ")
-            if cpf == '0':
-                break
-            
-            cpf = cpf.replace(".", "").replace("-", "")
+            nova_renda = input("Digite a nova renda de {}: ".format(cpf))
 
-            if len(cpf) != 11:
-                print("CPF inválido! Não é possível inserir esse CPF.")
+            try:
+                nova_renda = float(nova_renda)
+            except ValueError:
+                print("Valor de renda inválido! Digite um número válido.")
                 continue
 
-            if cpf == cpf_antigo:
-                print("CPF repetido! Digite um CPF diferente.")
-                continue
+            clientes[cpf]['renda'] = nova_renda
+            print("A renda foi atualizada com sucesso!")
+            print("A renda de {} agora é {}".format(cpf, nova_renda))
+            break
 
-            cpf_antigo = cpf
-          #pede que o usuario digite a renda do cliente (cpf) 
-            renda = float(input("Digite a renda do cliente: "))
-            cliente = {'cpf': cpf, 'renda': renda}
-            clientes.append(cliente)
+    else:
+        print("CPF não cadastrado. Digite outro CPF válido.")
 
-        num_clientes = len(clientes)
-        #caso o primeiro cpf inserido seja igual '0'
-        if num_clientes == 0:
-            print("Nenhum cliente foi cadastrado.")
-            print("--------------------------------------")
-            return clientes
-          #função que define se a renda dos usuarios cadastrados são superiores aR$ 10.000,00; entre R$ 5.000,00 e R$ 10.000,00; e inferior a R$ 5.000,00.
-        renda_superior_10000 = sum(1 for cliente in clientes if cliente['renda'] > 10000)
-        renda_entre_10000_e_5000 = sum(1 for cliente in clientes if 10000 >= cliente['renda'] >= 5000)
-        renda_inferior_5000 = sum(1 for cliente in clientes if cliente['renda'] < 5000)
-      # printa os valores registrados 
-        print("--------------------------------------")
-        print("OPERAÇÃO REALIZADA COM SUCESSO")
-        print("Clientes cadastrados:")
 
-        for cliente in clientes:
-            cpf_formatado = "{}.{}.{}/{}".format(cliente['cpf'][:3], cliente['cpf'][3:6],
-                                                 cliente['cpf'][6:9], cliente['cpf'][9:])
-            print("CPF:", cpf_formatado, "- Renda:", cliente['renda'])
+def exibir_clientes(clientes):
+    conjunto_clientes = set()
 
-        print("Número de clientes cadastrados:", num_clientes)
-        print("Percentual de clientes com renda superior a R$10.000,0: {:.2%}".format(renda_superior_10000 / num_clientes))
-        print("Percentual de clientes com renda entre R$10.000,00 e R$5.000,00: {:.2%}".format(renda_entre_10000_e_5000 / num_clientes))
-        print("Percentual de clientes com renda inferior a R$5.000,00: {:.2%}".format(renda_inferior_5000 / num_clientes))
+    for cliente in clientes.values():
+        cpf_formatado = "{}.{}.{}/{}".format(cliente['cpf'][:3], cliente['cpf'][3:6], cliente['cpf'][6:9], cliente['cpf'][9:])
+        conjunto_clientes.add((cpf_formatado, cliente['renda']))
 
-        print("--------------------------------------")
+    return conjunto_clientes
 
-        return clientes
+def main():
+    clientes = {}
+    while True:
+        print("1. Cadastrar cliente")
+        print("2. Exibir clientes cadastrados")
+        print("3. Alterar renda de cliente")
+        print("0. Sair")
+        opcao = input("Digite o número da opção desejada: ")
 
-lista_clientes = ger_clientes()
+        if opcao == '1':
+            conjunto_clientes = cadastrar_cliente(clientes)
+            print("Conjunto de clientes cadastrados:")
+            for cpf, renda in conjunto_clientes:
+                print("CPF:", cpf, "- Renda:", renda)
+        elif opcao == '2':
+            conjunto_clientes = exibir_clientes(clientes)
+            print("Conjunto de clientes cadastrados:")
+            for cpf, renda in conjunto_clientes:
+                print("CPF:", cpf, "- Renda:", renda)
+        elif opcao == '3':
+            alterar_renda(clientes)
+        elif opcao == '0':
+            break
+        else:
+            print("Opção inválida! Digite um número válido.")
+
+        print()
+
+
+if __name__ == "__main__":
+    main()
 
