@@ -31,6 +31,7 @@ def dataf(data1):
 
 
 #declaração das variaveis e listas que vão ser usadas.
+l=0
 i=0
 qtd_item=[]
 valor_item=[]
@@ -69,12 +70,20 @@ while (total_vendas>i):#loop para cadastrar as vendas de acordo com q quantidade
     
         valor_item.append(int(input("digite o valor do item:")))
         x.append(qtd_item[y]*valor_item[y])
+        print('--------------------------------------')
+        print("CADASTRO DA VENDA")
+        dataf(data)
+        print("codigo do cliente:",cpf)
+        print("codigo do item:",codigo_item)
+        print("total de vendas:",qtd_item[l])
+        l+=1
     
     
     
     
 #printa todas as resoluções   
-    
+print("--------------------------------------")
+print("RELATORIO DA MOVIMENTACAO FINANCERIA:")    
 dataf(data)
 print("saldo final do caixa:",saldo_inicial+sum(x))
 print("Valor inteiro das vendas ate o momento:",sum(x)/sum(qtd_item))
