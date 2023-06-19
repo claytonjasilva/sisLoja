@@ -1,7 +1,6 @@
 
-
 while True:
-  inicio=input("digite estoque ou caixa ou clientes:")
+  inicio=input("Digite estoque ou caixa ou clientes: ")
   match inicio: 
    case 'estoque':
     def cod_valido(num):
@@ -13,155 +12,122 @@ while True:
         return 1 #O código é válido
       else:
         return 0 #O código é inválido
-
-     
-     
-     
-    
-     
-     
-      
-        
-    operacao=input('Digite (i) para incluir um item, (e) para excluir e (s) para sair. ')
-    listaEstoque=[]
+    operacao=input('Digite (i) para incluir um item, (e) para excluir e (a)para alterar um item(s) para sair.\n ')  
+    listasaldo=[]
+    listacod=[]
+    listaval=[]
+    listadesc=[]
     abacate=True
     cont=0
     i=0 
-
     while abacate==True:
-        match operacao:
-        
-          #Inclusão
-          case 'i':
-            mvalor=0
-            mcodigo=0
-            total_valor=0
-            total_itens=0
-            
-            
-            qtd_itens=int(input('Digite quantos itens, no total, serão inclusos: \n'))
-            total_itens+=qtd_itens
-            listasaldo=['o']*qtd_itens
-            
-            #Loop para a quantidade de itens
-            for i in range(qtd_itens): 
-      
-              #Loop caso o código não seja válido
-              flag=True
-              while flag==True:
-                cod_item=int(input('Digite o código do item: \n'))
-              
-                if cod_valido(cod_item)==0: #Código inválido
-                  print('Código inválido.\nA soma dos digitos deve ser entre 30 e 100.\n')
-                  cod_item=0 
-              
-                elif cod_valido(cod_item)==1: #Código válido
-                  flag=False
-      
-              
-              saldo_item=int(input('Digite a quantidade desse item que será incluso: \n'))
-              desc_item=input('Digite a descrição do item: \n')
-              valor_item=float(input('Digite o valor do item, em reais: \n'))
-              
-            
-              listasaldo[cont]=saldo_item
-              cont+=1 
-              
-              #Calculando a média
-              total_valor+=valor_item
-              media=total_valor/total_itens
-      
-              #Estabelecendo o código com o maior valor
-              if valor_item>mvalor:
-                mvalor=valor_item
-                mcodigo=cod_item
-      
+      match operacao:
+
+       #inclusao
+        case'i':
+          mvalor=0
+          mcodigo=0
+          total_valor=0
+          total_itens=0
+          qtd_itens=int(input('Digite quantos itens, no total, serão inclusos: \n'))
+          total_itens+=qtd_itens
+
+           #Loop para a quantidade de itens
+          for i in range(qtd_itens): 
+            #Loop caso o código não seja válido
+            flag=True
+            while flag==True:
+              cod_item=int(input('Digite o código do item: \n'))
+              if cod_valido(cod_item)==0: #Código inválido
+                print('Código inválido.\nA soma dos digitos deve ser entre 30 e 100.\n')
+                cod_item=0
+
+              elif cod_valido(cod_item)==1: #Código válido
+                flag=False
+            listacod.append(str(cod_item))
+            saldo_item=int(input('Digite a quantidade desse item que será incluso: \n'))
+            listasaldo.append(saldo_item)
+            desc_item=input('Digite a descrição do item: \n')
+            listadesc.append(desc_item)
+            valor_item=float(input('Digite o valor do item, em reais: \n'))
+            listaval.append(valor_item)
+            #Calculando a média
+            total_valor+=valor_item
+            media=total_valor/total_itens
+            #Estabelecendo o código com o maior valor
+            if valor_item>mvalor:
+              mvalor=valor_item
+              mcodigo=cod_item
               #Atualizando a listaEstoque
-              item = {'Código': cod_item, 'Descrição': desc_item, 'Valor': valor_item, 'Saldo': saldo_item}
-              listaEstoque.append(item)
+          #Printando
+          print('------------------------------\n')
+          print('valor medio dos itens cadastrados é: ',media,'\n')
+          print('Item de maior valor cadastrado é: ',mcodigo,'e vale: ', mvalor,'\n')
+          print('------------------------------\n')
+          operacao=input('Digite (i) para incluir um item, (e) para excluir,(a) para alterar um item ou (0) para sair. \n')
+
+    #Exclusão
+        case 'e':
+          sopa=True 
+          while sopa==True: 
+            cod_excl=input('Digite o código a ser excluído: \n')
+            if cod_excl not in listacod:
+              print('O código é inválido. Transação encerrada.\n') #Verificando se o código é válido
+              sopa==False
+              abacate==False
+
+            else:
+              indice=listacod.index(cod_excl)
+              alerta=input('Tem certeza que deseja excluir o item? S ou N: \n') #Alerta
+              match alerta:
+                case'S': #Usuário escolhe sim
+                  itens_excl=int(input('Digite quantos itens devem ser excluídos: \n'))
+                  listasaldo[indice]-=itens_excl
+                  if listasaldo[indice]<0:
+                    print ('O código é inválido pois não há saldo suficiente. Operação encerrada.\n')
+                    listasaldo[indice]+=itens_excl
               
-              
-            #Printando
-            print('---------------------------------------------------')
-            print('A média dos valores dos itens cadastrados é: ',media,'\n')
-            print('O maior valor posto é do item de código: ',mcodigo,'e vale: ', mvalor)
-            print('---------------------------------------------------')
-            operacao=input('Digite (i) para incluir um item, (e) para excluir e (s) para sair. \n')  
-           
-          case 'e':
-            codigos_excluidos=[]
-            sopa=True
-            while sopa==True: 
-              cod_excl=int(input('Digite o código a ser excluído: \n'))
-            
-            
-              if cod_valido(cod_excl)==0:
-                print('O código é inválido. Transação encerrada.\n') #Verificando se o código é válido
-                sopa=False
-                abacate=False
-      
-              else:
-              
-                alerta=input('Tem certeza que deseja excluir o item? S ou N: \n') #Alerta
-              
-                match alerta:
-                
-                  case'S': #Usuário escolhe sim
-                  
-                    itens_excl=int(input('Digite quantos itens devem ser excluídos: \n'))
-                  
-                    item_encontrado=False
-                  
-                    for item in listaEstoque:
-                              if item['Código'] == cod_excl:
-                                  item_encontrado = True
-                                  qtd_retirada = min(item['Saldo'], itens_excl)
-                                  item['Saldo'] -= qtd_retirada
-                                  listasaldo[listaEstoque.index(item)] -= qtd_retirada
-                                  codigos_excluidos.append((cod_excl,'         ', qtd_retirada,)) 
-                                  if item['Saldo']==0:
-                                      listaEstoque.remove(item)
-                                  break
-      
-                    if item_encontrado==False:
-                      print ('O código é inválido pois não há saldo. Operação encerrada.\n')
-                      abacate=False
-                      sopa=False
-                    else:
-                      print('Operação relizada com sucesso: ', listaEstoque,'\n')
-                      desejo=input('Deseja excluir outro item? S ou N: \n')
-                      if desejo=='N':
-                        abacate=False
-                        sopa=False
-                        print('Transação encerrada.\n')
-                        print('Após as operações, o saldo do estoque está assim: ', listaEstoque,'\n')
-                        
-                        print('---------------------------------------')
-                        print('RELATÓRIO DE ITENS EXCLUÍDOS \n')
-                        print(' ITEM          SALDO RETIRADO \n')
-                        for cod_excl in codigos_excluidos:
-                          print(cod_excl)
-                          print('\n')
-                        print('----------------------------------------') 
-              
-               
-                  case'N': #Usuário escolhe não
-              
-              
-              
-                    print('Operação encerrada.\n')
-                    
-                    abacate=False
                     sopa=False
-                    
-    
-          case 's':
-            print('Saiu do programa.\n')
-            abacate=False 
-            False
-                
-        
-        
+                    operacao=input('Digite (i) para incluir um item, (e) para excluir,(a) para alterar um item ou (0) para sair. \n')
+                  else:
+                    print('------------------------------------\n')
+                    print('Relatorio de itens excluídos\n')
+                    print('item     saldo')
+                    for i in range (total_itens):
+                      print(listacod[i],'     ',listasaldo[i],'\n')
+                    print('------------------------------------\n')
+                    desejo=input('Deseja excluir outro item? S ou N: \n')
+                    if desejo=='N':
+                      sopa=False
+                      print('Transação encerrada.\n')
+                      operacao=input('Digite (i) para incluir um item, (e) para excluir,(a) para alterar um item ou (0) para sair. \n')
+                      sopa=False
+                case'N': #Usuário escolhe não
+                  print('Operação encerrada.\n')
+             
+                  operacao=input('Digite (i) para incluir um item, (e) para excluir,(a) para alterar um item ou (0) para sair. \n')
+          
+                  sopa=False
+
+        case 's':
+          print('Saiu do programa.\n')
+          abacate=False
+        case 'a':
+          altera=0
+          altera=input('digite o codigo q deseja alterar: ')
+          if altera not in listacod:
+            print('codigo invalido')
+          else:
+            indice=listacod.index(altera)
+            listasaldo[indice]=int(input('digite o novo saldo: \n'))
+            listaval[indice]=int(input('digite o novo valor: \n'))
+            listadesc[indice]=input('digite a nova descricao: \n')
+            print('------------------------------------------------')
+            print('Item          Descrição          Valor         Saldo')
+            print(listacod[indice],'      ',listadesc[indice],'              ',listaval[indice],'                 ',listasaldo[indice])
+            print('------------------------------------------------\n\n') 
+            operacao=input('Digite (i) para incluir um item, (e) para excluir,(a) para alterar um item ou (0) para sair. \n')
+
         
    case 'caixa':
     def cod_valido(num):#funcao para digitar um codigo valido
@@ -191,6 +157,7 @@ while True:
         return a,b,c
     
     #declaração das variaveis e listas que vão ser usadas.
+    l=0
     i=0
     qtd_item=[]
     valor_item=[]
@@ -198,7 +165,7 @@ while True:
     y=-1
     total_vendas=int(input("digite o total de vendas:"))
     data=int(input("digite o dia o mes e o ano do dia de hoje(ex:141997):"))
-    saldo_inicial=int(input("digite o saldo inicial do dia:"))
+    saldo_inicial=float(input("digite o saldo inicial do dia:"))
     while (total_vendas>i):#loop para cadastrar as vendas de acordo com q quantidade das mesmas.
       i=i+1
       y=y+1
@@ -227,14 +194,22 @@ while True:
     
       qtd_item.append(int(input("digite quantos deste item serao adquiridos:")))
     
-      valor_item.append(int(input("digite o valor do item:")))
+      valor_item.append(float(input("digite o valor do item:")))
       x.append(qtd_item[y]*valor_item[y])
-    
+      print('--------------------------------------')
+      print("CADASTRO DA VENDA")
+      dataf(data)
+      print("codigo do cliente:",cpf)
+      print("codigo do item:",codigo_item)
+      print("total de vendas:",qtd_item[l])
+      l+=1
     
     
     
    
     #printa todas as resoluções
+    print("--------------------------------------")
+    print("RELATORIO DA MOVIMENTACAO FINANCERIA:")  
     dataf(data)
     print("saldo final do caixa:",saldo_inicial+sum(x))
     print("Valor das vendas ate o momento:",sum(x)/sum(qtd_item))
@@ -245,65 +220,109 @@ while True:
   
   
    case'clientes':
-    def ger_clientes():
-        clientes = []
-        cpf_antigo = ''
+    def cadastrar_cliente(clientes):
+        conjunto_clientes = set()  
+
         while True:
-          #função pede para o usuario digitar um cpf e verifica se esse cpf é possivel ou impossivel 
             print("--------------------------------------")
             cpf = input("Digite o CPF do cliente (0 para sair): ")
+    
             if cpf == '0':
                 break
-            
+    
             cpf = cpf.replace(".", "").replace("-", "")
-
+    
             if len(cpf) != 11:
                 print("CPF inválido! Não é possível inserir esse CPF.")
                 continue
-
-            if cpf == cpf_antigo:
+    
+            if cpf in clientes:
                 print("CPF repetido! Digite um CPF diferente.")
                 continue
-
-            cpf_antigo = cpf
-          #pede que o usuario digite a renda do cliente (cpf) 
-            renda = float(input("Digite a renda do cliente: "))
+    
+            renda = input("Digite a renda do cliente: ")
+    
+            renda = float
+    
             cliente = {'cpf': cpf, 'renda': renda}
-            clientes.append(cliente)
+            clientes[cpf] = cliente
+    
+            cpf_formatado = "{}.{}.{}/{}".format(cpf[:3], cpf[3:6], cpf[6:9], cpf[9:])
+            conjunto_clientes.add((cpf_formatado, renda))
 
-        num_clientes = len(clientes)
-        #caso o primeiro cpf inserido seja igual '0'
-        if num_clientes == 0:
-            print("Nenhum cliente foi cadastrado.")
-            print("--------------------------------------")
-            return clientes
-          #função que define se a renda dos usuarios cadastrados são superiores aR$ 10.000,00; entre R$ 5.000,00 e R$ 10.000,00; e inferior a R$ 5.000,00. 
-        renda_superior_10000 = sum(1 for cliente in clientes if cliente['renda'] > 10000)
-        renda_entre_10000_e_5000 = sum(1 for cliente in clientes if 10000 >= cliente['renda'] >= 5000)
-        renda_inferior_5000 = sum(1 for cliente in clientes if cliente['renda'] < 5000)
-        # printa os valores registrados 
         print("--------------------------------------")
         print("OPERAÇÃO REALIZADA COM SUCESSO")
         print("Clientes cadastrados:")
-
-        for cliente in clientes:
-            cpf_formatado = "{}.{}.{}/{}".format(cliente['cpf'][:3], cliente['cpf'][3:6],
-                                                 cliente['cpf'][6:9], cliente['cpf'][9:])
-            print("CPF:", cpf_formatado, "- Renda:", cliente['renda'])
-          
-        print("Número de clientes cadastrados:", num_clientes)
-        print("Percentual de clientes com renda superior a R$10.000,0: {:.2%}".format(renda_superior_10000 / num_clientes))
-        print("Percentual de clientes com renda entre R$10.000,00 e R$5.000,00: {:.2%}".format(renda_entre_10000_e_5000 / num_clientes))
-        print("Percentual de clientes com renda inferior a R$5.000,00: {:.2%}".format(renda_inferior_5000 / num_clientes))
-
+        for cpf, renda in conjunto_clientes:
+            print("CPF:", cpf, "- Renda:", renda)
+        print("Número de clientes cadastrados:", len(clientes))
         print("--------------------------------------")
+    
+        return conjunto_clientes
+    
 
-        return clientes
+    def alterar_renda(clientes):
+        cpf = input("Digite o CPF do cliente que deseja alterar a renda: ")
+        cpf = cpf.replace(".", "").replace("-", "")
+    
+        if cpf in clientes:
+            while True:
+                nova_renda = input("Digite a nova renda de {}: ".format(cpf))
+    
+                try:
+                    nova_renda = float(nova_renda)
+                except ValueError:
+                    print("Valor de renda inválido! Digite um número válido.")
+                    continue
+    
+                clientes[cpf]['renda'] = nova_renda
+                print("A renda foi atualizada com sucesso!")
+                print("A renda de {} agora é {}".format(cpf, nova_renda))
+                break
+    
+        else:
+            print("CPF não cadastrado. Digite outro CPF válido.")
 
-    lista_clientes = ger_clientes()
-    False
 
-lista_clientes = ger_clientes()
-     
-  
-  
+    def exibir_clientes(clientes):
+        conjunto_clientes = set()
+    
+        for cliente in clientes.values():
+            cpf_formatado = "{}.{}.{}/{}".format(cliente['cpf'][:3], cliente['cpf'][3:6], cliente['cpf'][6:9], cliente['cpf'][9:])
+            conjunto_clientes.add((cpf_formatado, cliente['renda']))
+    
+        return conjunto_clientes
+    
+    def main():
+        clientes = {}
+        while True:
+            print("1. Cadastrar cliente")
+            print("2. Exibir clientes cadastrados")
+            print("3. Alterar renda de cliente")
+            print("0. Sair")
+            opcao = input("Digite o número da opção desejada: ")
+    
+            if opcao == '1':
+                conjunto_clientes = cadastrar_cliente(clientes)
+                print("Conjunto de clientes cadastrados:")
+                for cpf, renda in conjunto_clientes:
+                    print("CPF:", cpf, "- Renda:", renda)
+            elif opcao == '2':
+                conjunto_clientes = exibir_clientes(clientes)
+                print("Conjunto de clientes cadastrados:")
+                for cpf, renda in conjunto_clientes:
+                    print("CPF:", cpf, "- Renda:", renda)
+            elif opcao == '3':
+                alterar_renda(clientes)
+            elif opcao == '0':
+                break
+            else:
+                print("Opção inválida! Digite um número válido.")
+    
+            print()
+    
+    
+    if __name__ == "__main__":
+        main()
+    
+    
