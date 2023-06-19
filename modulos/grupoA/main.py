@@ -3,37 +3,39 @@ import gerestoque  # importa as funçoes
 import gercliente  # importa as funçoes
 import gercaixa
 
+vendas = []
+codigos = []
 listaEstoque = []  # inicializa a lista do estoque vazia
 listacpf = []
+listaClientes = []
 cpf = ""
 
+
 def menu():
-  #menu principal do sisloja
-  os.system('cls' if os.name == 'nt' else 'clear')  # limpa o console
-  print("------------------------------\n")
-  print("SISTEMA DE GESTAO DE LOJA (SISLOJA)\n")
-  print("Escolha a opção desejada: \n")
-  print("Gestão de estoque (1) \n")
-  print("Gestao de clientes (2) \n")
-  print("Gestão de fluxo de caixa (3) \n")
-  print("------------------------------\n")
+  os.system('cls' if os.name == 'nt' else 'clear')
+  print("------------------------------")
+  print("SISTEMA DE GESTAO DE LOJA (SISLOJA)")
+  print("Selecionar a opção desejada:")
+  print("Gestão de estoque (1)")
+  print("Gestão de clientes (2)")
+  print("Gestão de fluxo de caixa (3)")
+  print("------------------------------")
+
 
 def sisloja():
-  #Separa as funçoes de acordo com o que o cliente decidir
   while True:
     menu()
-    Gestao = int(input("O que deseja fazer? "))
+    opcao = int(input("O que deseja fazer? "))
 
-    if Gestao == 1:
-      gerestoque.menu_estoque(listaEstoque)  # Realiza os comandos da funçao
-    elif Gestao == 2:
-      gercliente.cadastrar_cliente()  #Realiza os comandos da funçao
-    elif Gestao == 3:
-      gercaixa.menu_caixa()  #Realiza os comandos da funçao
+    if opcao == 1:
+      gerestoque.menu_estoque(listaEstoque)
+    elif opcao == 2:
+      gercliente.menu_cliente()
+    elif opcao == 3:
+      gercaixa.menu_caixa()
     else:
-      print("Ação inválida. Tente novamente.\n")
-      print("------------------------------\n")
-      return
+      print("Ação inválida. Tente novamente.")
+
 
 sisloja()
 
