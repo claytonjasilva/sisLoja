@@ -4,76 +4,95 @@
 #Pedro Henrique Abdalla Ramos / 202304077754: TA
 #Victor Alvarenga Hwang / 202208766005: TA
 #Gabriel Mendonça de Medeiros / 202302855458: TA
-#Gabriela Borsoi Cohen / 202208431021: TA
+#Gabriela Borsoi Cohen / 202208431021: TP
 
 
+class Venda:
+    def __init__(self, data, codigo_cliente, codigo_item, quantidade):
+        self.data = data
+        self.codigo_cliente = codigo_cliente
+        self.codigo_item = codigo_item
+        self.quantidade = quantidade
+
+class Caixa:
+    def __init__(self):
+        self.vendas = []  # Inicializa a lista de vendas vazia
+
+    def cadastrar_venda(self, data, codigo_cliente, codigo_item, quantidade):
+        venda = Venda(data, codigo_cliente, codigo_item, quantidade)
+        self.vendas.append(venda)  # Adiciona a venda à lista de vendas
+
+    def calcular_quantidade_vendida(self, data):
+        quantidade_total = 0
+        for venda in self.vendas:
+            if venda.data == data:
+                quantidade_total += venda.quantidade  # Soma a quantidade de vendas para a data especificada
+        return quantidade_total
+
+    def calcular_saldo(self):
+        saldo = 0
+        for venda in self.vendas:
+            saldo += venda.quantidade  # Considerando o valor unitário dos itens como 1 para simplificar
+        return saldo
+
+    def calcular_valor_medio_vendas(self):
+        if not self.vendas:
+            return 0
+        valor_total_vendas = sum(venda.quantidade for venda in self.vendas)
+        valor_medio = self.calcular_saldo() / len(self.vendas)  # Calcula o valor médio das vendas
+        return valor_medio
+
+    def exibir_relatorio_movimentacao(self, data):
+        saldo = self.calcular_saldo()
+        valor_medio = self.calcular_valor_medio_vendas()
+        total_vendas = self.calcular_quantidade_vendida(data)
+
+        # Exibe o cabeçalho do relatório de movimentação
+        print("----------------------------------------------------------")
+        print("RELATÓRIO DE MOVIMENTAÇÃO FINANCEIRA")
+        print(f"Data da movimentação: {data}")
+        print(f"Saldo: R$ {saldo:.2f}")
+        print(f"Valor médio das vendas: R$ {valor_medio:.2f}")
+        print(f"Total das vendas: {total_vendas} unidades")
+        print("----------------------------------------------------------")
+
+        input("Teclar 0 para retornar à tela principal")
+
+    def exibir_tela_principal(self):
+        while True:
+          # Solicita os dados da venda para cadastrar
+            print("-------- TELA PRINCIPAL --------")
+            print("1. Cadastrar venda")
+            print("2. Gerar relatório de movimentação")
+            print("0. Sair")
+            opcao = input("Escolha uma opção: ")
+
+            if opcao == "1":
+                # Solicita os dados da venda para cadastrar
+                data_venda = input("Digite a data da venda: ")
+                codigo_cliente = input("Digite o código do cliente: ")
+                codigo_item = input("Digite o código do item: ")
+                quantidade = int(input("Digite a quantidade: "))
+
+                # Chama o método cadastrar_venda para adicionar a venda à lista de vendas
+                self.cadastrar_venda(data_venda, codigo_cliente, codigo_item, quantidade)
+                print("Venda cadastrada com sucesso!")
+
+            elif opcao == "2":
+                # Solicita a data para gerar o relatório de movimentação
+                data_relatorio = input("Digite a data para gerar o relatório: ")
+
+                # Chama o método exibir_relatorio_movimentacao para exibir o relatório
+                self.exibir_relatorio_movimentacao(data_relatorio)
+
+            elif opcao == "0":
+                # Sai do loop e encerra o programa
+                break
+
+            else:
+                print("Opção inválida. Por favor, escolha novamente.")
 
 
-
-
-while True: # inicio do loop
-    while True:
-        print(' ------------------------------------------------- ')
-        data = input(" | Digite a data da movimentação (DD/MM/AAAA) |: ") #Entrada da data
-        data = data.replace("/", "").replace(" ", "")  # Remover separadores "/" e espaços em branco se estiverem presentes
-        if len(data) < 8:
-            print(" Data inválida. Digite a data no formato DD/MM/AAAA. \n")
-            continue  # Retorna ao início do loop interno
-        else:
-            # Separar dia, mês e ano
-            dia = data[:2]  # Extrai os dois primeiros caracteres da string data
-            mes = data[2:4]  # Extrai os dois caracteres seguintes da string data
-            ano = data[4:]  # Extrai os caracteres restantes a partir do quarto índice
-            break
-          
-# Entrada de dados do saldo inicial e de total de vendas
-    print('\n')
-    saldo_inicial = float(input(" | Digite o saldo inicial do caixa no dia: |> "))
-    print('\n')
-    total_vendas = int(input(" | Digite o número total de vendas realizadas: |> "))
-  
-    vendas = []
-    print('\n')
-    cpf = input(" | Digite o CPF do cliente: |> ")
-    print('\n')
-    cod_item = input(" | Digite o código do item: |> ")
-    print('\n')
-    quant_item = int(input(" | Digite a quantidade de itens: |> "))
-    print('\n')
-    valor_un = float(input(" | Digite o valor unitário do item: |> "))#Entrada de dados do cpf e codigo de item, quantidade de itense valor unitario do item.
-
-    tot_venda = quant_item * valor_un #calcula o total de vendas
-  
-    vendas.append({
-        'cpf': cpf,
-        'cod_item': cod_item,
-        'quant_item': quant_item,
-        'valor_un': valor_un,
-        'tot_venda': tot_venda
-    })#Neste passo,está anexando um dicionário à lista de vendas. Cada dicionário representa uma venda e contém as seguintes informações:
-  
-    saldo_final = saldo_inicial
-    for venda in vendas:
-        saldo_final += venda['tot_venda'] # calcula o saldo final (saldo_final) com base no saldo inicial (saldo_inicial) e nos valores totais das vendas armazenados na lista de vendas.
-  
-
-    valor_total_vendas = sum(venda['tot_venda'] for venda in vendas)#calcula o valor total de todas as vendas armazenadas na lista de vendas.
-  
-    valor_medio_vendas = valor_total_vendas / total_vendas if total_vendas > 0 else 0 #calcula o valor médio das vendas por transação.
-
-    total_itens_vendidos = sum(venda['quant_item'] for venda in vendas) #calcula o número total de itens vendidos em todas as transações de vendas.
-
-    print('\n')
-    print(' ---------------------------------------------- ')
-    print(f" Data da movimentação: {dia}/{mes}/{ano} ")
-    print('\n')
-    print(f" Saldo final do caixa: R$ {saldo_final:.2f} ")
-    print('\n')
-    print(f" Valor médio das vendas no dia: R$ {valor_medio_vendas:.2f} ")
-    print('\n')
-    print(f" Total de itens vendidos: {total_itens_vendidos} ")
-    print(' ----------------------------------------------- ') # imprime, data da movimentação, saldo final, valor médio total com as porcentagens 
-
-    opcao = input(" Deseja repetir a entrada de informações? (S/N): ") #Pergunta se quer repetir a ação
-    if opcao.lower() != 's':
-        break # finaliza o codigo
+# Exemplo de uso
+caixa = Caixa()
+caixa.exibir_tela_principal()
